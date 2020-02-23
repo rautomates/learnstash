@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>spring-boot-web-jsp-demo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>spring-boot-web-jsp-demo</name>
+	<description>Demo project for Spring Boot Web App</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.14.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<jacoco.version>0.8.2</jacoco.version>
+		<sonar.projectName>MyApp</sonar.projectName>
+		<sonar.projectVersion>1.0</sonar.projectVersion>
+		<sonar.projectKey>jcg.zheng.demo</sonar.projectKey>
+		<sonar.sources>src/main/java</sonar.sources>
+		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+		<sonar.language>java</sonar.language>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
+		<sonar.junit.reportsPaths>target/jacoco.exec</sonar.junit.reportsPaths>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	
+		<!-- JSTL -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+		<!-- Need this to compile JSP for Embedded Tomcat -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+
+		<!-- Spring MVC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
+            <groupId>org.codehaus.sonar-plugins.java</groupId>
+            <artifactId>sonar-jacoco-listeners</artifactId>
+            <version>1.4</version>
+            <scope>test</scope>
+
+        </dependency>
+
+	</dependencies>
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<activation>
+			<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+			<sonar.host.url>http://192.168.1.9:9000</sonar.host.url>
+			</properties>
+		</profile>
+	</profiles>
+	<build>
+		<finalName>myapp</finalName>
+		<plugins>
+			<plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.5.0.1254</version>
+            </plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+				<execution>
+					<phase>initialize</phase>
+					<goals>
+					<goal>read-project-properties</goal>
+					</goals>
+					<configuration>
+					<files>
+						<file>sonar-project.properties</file>
+					</files>
+					</configuration>
+				</execution>
+				</executions>
+			</plugin>
+			<plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jacoco-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+						<configuration>
+                            <rules>
+                                <rule>
+                                    <element>PACKAGE</element>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <value>COVEREDRATIO</value>
+                                            <minimum>0.9</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+	</plugins>
+</build>
+</project>

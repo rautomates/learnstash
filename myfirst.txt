@@ -1,4 +1,0 @@
-This is my first file to add in git hub
-Modifying the mid line
-This is my last line
-For stash demo pupose added this line
